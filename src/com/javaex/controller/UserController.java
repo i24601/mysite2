@@ -39,7 +39,8 @@ public class UserController extends HttpServlet {
 			name = request.getParameter("name");
 			gender = request.getParameter("gender");
 			
-			uVo = new UserVo(id, password, name, gender);
+			uVo = new UserVo(0, id, password, name, gender);
+			//생성자 여러개 만들기 싫어서 no에 임의의 정수값 0 입력
 			uDao = new UserDao();
 			
 			uDao.insert(uVo);
@@ -92,14 +93,16 @@ public class UserController extends HttpServlet {
 			
 			session = request.getSession();
 			uVo = (UserVo)session.getAttribute("authUser");
-			session.removeAttribute("authUser");
+//			session.removeAttribute("authUser");
+			//어차피 같은 크기 같은 이름의 authUser(uVo)를 생성하므로 지우고 만들필요없이 덧쓰면 된다 
 			
 			int no = uVo.getNo();
 			password = request.getParameter("password");
 			name = request.getParameter("name");
 			gender = request.getParameter("gender");
 
-			uVo = new UserVo(no, password, name, gender);
+			uVo = new UserVo(no, null, password, name, gender);
+			//생성자 여러개 만들기 싫으므로 id에 임의의 String Null 입력
 			uDao.update(uVo);
 
 			session.setAttribute("authUser", uVo);

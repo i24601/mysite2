@@ -13,16 +13,9 @@
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<ul>
-				<li><a href="">로그인</a></li>
-				<li><a href="">회원가입</a></li>
-			</ul>
-		</div>
+		<!-- 헤더분리 -->
+		<jsp:include page="../main/header.jsp" />
+		<!-- 헤더분리 -->
 		<!-- //header -->
 
 		<div id="nav">
@@ -78,9 +71,9 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<!-- 푸터푼리 -->
+		<jsp:include page="../main/footer.jsp" />
+		<!-- 푸터푼리 -->
 		<!-- //footer -->
 
 	</div>

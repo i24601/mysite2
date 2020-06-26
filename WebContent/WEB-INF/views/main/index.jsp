@@ -19,8 +19,10 @@
 <body>
 	<div id="wrap">
 
+		<!-- 헤더분리 -->
 		<jsp:include page="./header.jsp" />
-
+		<!-- 헤더분리 -->
+		
 
 		<div id="nav">
 			<ul>
@@ -73,8 +75,10 @@
 		<!-- //full-content -->
 		<div class="clear"></div>
 		
-
+		<!-- 푸터푼리 -->
 		<jsp:include page="./footer.jsp" />
+		<!-- 푸터푼리 -->
+		
 	</div>
 	<!-- //wrap -->
 	
