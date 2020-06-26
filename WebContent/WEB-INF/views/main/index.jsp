@@ -20,19 +20,11 @@
 	<div id="wrap">
 
 		<!-- 헤더분리 -->
-		<jsp:include page="./header.jsp" />
+		<jsp:include page="/WEB-INF/views/include/header.jsp" />
 		<!-- 헤더분리 -->
 		
 
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+		<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 		<!-- //nav -->
 
 		<!-- aside없음 -->
@@ -76,7 +68,7 @@
 		<div class="clear"></div>
 		
 		<!-- 푸터푼리 -->
-		<jsp:include page="./footer.jsp" />
+		<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 		<!-- 푸터푼리 -->
 		
 	</div>

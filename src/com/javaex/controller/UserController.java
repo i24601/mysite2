@@ -24,7 +24,6 @@ public class UserController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		String id = null, password = null, name = null, gender = null;
-		UserVo uVo = null ;
 		UserDao uDao = null ;
 		HttpSession session;
 		
@@ -39,11 +38,11 @@ public class UserController extends HttpServlet {
 			name = request.getParameter("name");
 			gender = request.getParameter("gender");
 			
-			uVo = new UserVo(0, id, password, name, gender);
+			UserVo uVo_join = new UserVo(0, id, password, name, gender);
 			//생성자 여러개 만들기 싫어서 no에 임의의 정수값 0 입력
 			uDao = new UserDao();
 			
-			uDao.insert(uVo);
+			uDao.insert(uVo_join);
 			
 			WebUtil.foword(request, response, "/WEB-INF/views/user/joinOk.jsp");
 			break;
@@ -59,9 +58,9 @@ public class UserController extends HttpServlet {
 			password = request.getParameter("password");
 			System.out.println(id);
 			System.out.println(password);
-			uVo = uDao.getUser(id,password);
+			UserVo uVo_login = uDao.getUser(id,password);
 			
-			if(uVo == null) {
+			if(uVo_login == null) {
 				System.out.println("로그인 실패");
 				WebUtil.redeirect(request, response, "/mysite2/user?action=loginForm&result=fail");
 			}
@@ -69,7 +68,7 @@ public class UserController extends HttpServlet {
 			else {
 				//세션영역에 값을 추가
 				session = request.getSession();
-				session.setAttribute("authUser", uVo);
+				session.setAttribute("authUser", uVo_login);
 				
 				//로그인성공
 				WebUtil.redeirect(request, response, "/mysite2/main");
@@ -88,11 +87,11 @@ public class UserController extends HttpServlet {
 			uDao = new UserDao();
 
 			session = request.getSession();
-			uVo = (UserVo)session.getAttribute("authUser");
-			int no = uVo.getNo();
+			UserVo uVo_modifyForm = (UserVo)session.getAttribute("authUser");
+			int no = uVo_modifyForm.getNo();
 			
-			uVo=uDao.getUser(no);
-			request.setAttribute("userData", uVo);
+			uVo_modifyForm=uDao.getUser(no);
+			request.setAttribute("userData", uVo_modifyForm);
 			WebUtil.foword(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			break;
 			
@@ -105,11 +104,11 @@ public class UserController extends HttpServlet {
 			name = request.getParameter("name");
 			gender = request.getParameter("gender");
 			
-			uVo = new UserVo(no, null, password, name, gender);
-			uDao.update(uVo);
+			UserVo uVo_modify = new UserVo(no, null, password, name, gender);
+			uDao.update(uVo_modify);
 			
-			uVo=uDao.getUser(no);
-			session.setAttribute("authUser", uVo);
+			uVo_modify=uDao.getUser(no);
+			session.setAttribute("authUser", uVo_modify);
 			
 			WebUtil.redeirect(request, response, "/mysite2/main");
 			break;

@@ -13,7 +13,7 @@ ul, ol	{list-style-type: none; }
 a:link {text-decoration: none; color: #000000; }
 a:visited {text-decoration: none; color: #000000; }
 a:active {text-decoration: none; color: #000000; }
-a:hover {text-decoration: none; #000000; }
+a:hover {text-decoration: none; color: #000000; }
 
 /* 레이아웃 */
 #wrap {margin: 0px auto; width: 1000px; background-color: #FFFFFF; }

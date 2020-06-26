@@ -17,30 +17,16 @@
 	<div id="wrap">
 
 		<!-- 헤더분리 -->
-		<jsp:include page="../main/header.jsp" />
+		<jsp:include page="/WEB-INF/views/include/header.jsp" />
 		<!-- 헤더분리 -->
 		<!-- //header -->
 
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+		<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 		<!-- //nav -->
 
-		<div id="aside">
-			<h2>회원</h2>
-			<ul>
-				<li>회원정보</li>
-				<li>로그인</li>
-				<li>회원가입</li>
-			</ul>
-		</div>
+		
 		<!-- //aside -->
+		<jsp:include page="/WEB-INF/views/include/aSideUser.jsp"></jsp:include>
 
 		<div id="content">
 			
@@ -96,7 +82,7 @@
 		<div class="clear"></div>
 
 		<!-- 푸터푼리 -->
-		<jsp:include page="../main/footer.jsp" />
+		<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 		<!-- 푸터푼리 -->
 		<!-- //footer -->
 
