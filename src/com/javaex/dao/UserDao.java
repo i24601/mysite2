@@ -112,9 +112,43 @@ public class UserDao {
 		return uVo;
 	}
 	
+	public UserVo getUser(int no) {
+		getConnection();
+		
+		UserVo uVo = null;
+		
+		String sql = "";
+		sql += " select no, id, password, name, gender from users ";
+		sql += " where no = ? ";
+		System.out.println(sql);
+		try {
+			
+			pstmt = conn.prepareStatement(sql); // 쿼리로 만들기
+
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				no = rs.getInt("no");
+				String id = rs.getString("id");
+				String pw = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				uVo = new UserVo(no, id, pw, name, gender);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		close();
+		return uVo;
+	}
+	
 	public int update(UserVo uVo) {
 		System.out.println("update 실행");
-		System.out.println(uVo.getNo());
 		int count = 0;
 		getConnection();
 		

@@ -85,26 +85,30 @@ public class UserController extends HttpServlet {
 			break;
 			
 		case "modifyForm" :
+			uDao = new UserDao();
+
+			session = request.getSession();
+			uVo = (UserVo)session.getAttribute("authUser");
+			int no = uVo.getNo();
+			
+			uVo=uDao.getUser(no);
+			request.setAttribute("userData", uVo);
 			WebUtil.foword(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 			break;
 			
 		case "modify" :
 			uDao = new UserDao();
-			
 			session = request.getSession();
-			uVo = (UserVo)session.getAttribute("authUser");
-//			session.removeAttribute("authUser");
-			//어차피 같은 크기 같은 이름의 authUser(uVo)를 생성하므로 지우고 만들필요없이 덧쓰면 된다 
 			
-			int no = uVo.getNo();
+			no = ((UserVo)session.getAttribute("authUser")).getNo();
 			password = request.getParameter("password");
 			name = request.getParameter("name");
 			gender = request.getParameter("gender");
-
+			
 			uVo = new UserVo(no, null, password, name, gender);
-			//생성자 여러개 만들기 싫으므로 id에 임의의 String Null 입력
 			uDao.update(uVo);
-
+			
+			uVo=uDao.getUser(no);
 			session.setAttribute("authUser", uVo);
 			
 			WebUtil.redeirect(request, response, "/mysite2/main");
