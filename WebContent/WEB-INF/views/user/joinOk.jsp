@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,14 +15,18 @@
 	<div id="wrap">
 
 		<!-- 헤더분리 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp" />
+		<c:import url="/WEB-INF/views/include/header.jsp">
+		</c:import>
 		<!-- 헤더분리 -->
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+		<c:import url="/WEB-INF/views/include/nav.jsp">
+		</c:import>
+
 		<!-- //nav -->
 
-		<jsp:include page="/WEB-INF/views/include/aSideUser.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/aSideUser.jsp">
+		</c:import>
 
 		<!-- //aside -->
 
@@ -58,7 +63,7 @@
 		<div class="clear"></div>
 
 		<!-- 푸터푼리 -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+		<c:import url="/WEB-INF/views/include/footer.jsp" />
 		<!-- 푸터푼리 -->
 		<!-- //footer -->
 

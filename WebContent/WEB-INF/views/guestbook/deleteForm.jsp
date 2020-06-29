@@ -1,10 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
-<% 
-int i = Integer.parseInt(request.getParameter("no"));
-System.out.println(i);
-%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,15 +16,18 @@ System.out.println(i);
 	<div id="wrap">
 
 		<!-- 헤더분리 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp" />
+		<c:import url="/WEB-INF/views/include/header.jsp">
+		</c:import>
 		<!-- 헤더분리 -->
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+		<c:import url="/WEB-INF/views/include/nav.jsp">
+		</c:import>
 
 		<!-- //nav -->
 
-		<jsp:include page="/WEB-INF/views/include/aSideUser.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/aSideUser.jsp">
+		</c:import>
 
 		<!-- //aside -->
 
@@ -64,7 +63,7 @@ System.out.println(i);
 						</tr>
 					</table>
 					<input type='hidden' name="action" value="delete">
-					<input type='hidden' name="no" value="<%=i%>">
+					<input type='hidden' name="no" value="${param.no}">
 				</form>
 				
 			</div>
@@ -74,7 +73,8 @@ System.out.println(i);
 		<div class="clear"></div>
 		
 		<!-- 푸터푼리 -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+		</c:import>
 		<!-- 푸터푼리 -->
 		<!-- //footer -->
 

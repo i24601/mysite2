@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@page import="com.javaex.dao.GuestBookDao"%>
-<%@page import="com.javaex.vo.GuestBookVo"%>
-<%@page import="java.util.List"%>
-
-<%
-List<GuestBookVo> gList = (List<GuestBookVo>)request.getAttribute("gList");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -25,15 +19,18 @@ List<GuestBookVo> gList = (List<GuestBookVo>)request.getAttribute("gList");
 	<div id="wrap">
 
 		<!-- 헤더분리 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp" />
+		<c:import url="/WEB-INF/views/include/header.jsp">
+		</c:import>
 		<!-- 헤더분리 -->
 		<!-- //header -->
 
-		<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+		<c:import url="/WEB-INF/views/include/nav.jsp">
+		</c:import>
 
 		<!-- //nav -->
 
-		<jsp:include page="/WEB-INF/views/include/aSideUser.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/aSideUser.jsp">
+		</c:import>
 
 		<!-- //aside -->
 
@@ -64,13 +61,24 @@ List<GuestBookVo> gList = (List<GuestBookVo>)request.getAttribute("gList");
 						</colgroup>
 
 						<tbody>
+						
 							<tr>
-								<th><label class="form-text" for="input-uname">이름</label>
+								<td>
+								<label class="form-text" for="input-uname">이름</label>
 								</td>
-								<td><input id="input-uname" type="text" name="name"></td>
-								<th><label class="form-text" for="input-pass">패스워드</label>
+								
+								<td>
+								<input id="input-uname" type="text" name="name">
 								</td>
-								<td><input id="input-pass" type="password" name="pass"></td>
+								
+								<td>
+								<label class="form-text" for="input-pass">패스워드</label>
+								</td>
+								
+								<td>
+								<input id="input-pass" type="password" name="pass">
+								</td>
+								
 							</tr>
 							<tr>
 								<td colspan="4"><textarea name="content" cols="72" rows="5"></textarea></td>
@@ -93,17 +101,19 @@ List<GuestBookVo> gList = (List<GuestBookVo>)request.getAttribute("gList");
 						<col style="width: 40%;">
 						<col style="width: 10%;">
 					</colgroup>
-					<%for(GuestBookVo vo : gList) {%>
+					
+					<c:forEach items="${gList}" var="vo">
 					<tr>
-						<td><%=vo.getNumber()%></td>
-						<td><%=vo.getName()%></td>
-						<td><%=vo.getReg_date()%></td>
-						<td><a href="./gbc?action=deleteForm&no=<%=vo.getNumber()%>">삭제</a>
+						<td>${vo.number}</td>
+						<td>${vo.name}</td>
+						<td>${vo.reg_date}</td>
+						<td><a href="./gbc?action=deleteForm&no=${vo.number}">삭제</a>
 					</tr>
 					<tr>
-						<td colspan=4 class="text-left"><%=vo.getContent()%></td>
+						<td colspan=4 class="text-left">${vo.content}</td>
 					</tr>
-					<%} %>
+					</c:forEach>
+					
 				</table>
 				<!-- //guestRead -->
 
@@ -116,7 +126,8 @@ List<GuestBookVo> gList = (List<GuestBookVo>)request.getAttribute("gList");
 		<div class="clear"></div>
 
 		<!-- 푸터푼리 -->
-		<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+		</c:import>
 		<!-- 푸터푼리 -->
 		<!-- //footer -->
 
