@@ -70,6 +70,10 @@ public class UserController extends HttpServlet {
 				session = request.getSession();
 				session.setAttribute("authUser", uVo_login);
 				
+				 UserVo uVo = (UserVo)session.getAttribute("authUser");
+				 System.out.println(uVo.toString());
+				 System.out.println(uVo.getNo());
+				
 				//로그인성공
 				WebUtil.redeirect(request, response, "/mysite2/main");
 			}

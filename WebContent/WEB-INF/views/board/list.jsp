@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,46 +17,20 @@
 <body>
 	<div id="wrap">
 
-		<div id="header">
-			<h1><a href="">MySite</a></h1>
-			
-			
-			<!--  -->
-				<!-- 로그인실패시, 로그인전 -->
-				<ul>
-					<li><a href="">로그인</a></li>
-					<li><a href="">회원가입</a></li>
-				</ul>
-				
-			<!-- 로그인성공했을때 -->	
-			<!-- 
-				<ul>
-					<li>황일영 님 안녕하세요^^</li>
-					<li><a href="">로그아웃</a></li>
-					<li><a href="">회원정보수정</a></li>
-				</ul>
-			-->
-		</div>
+		<!-- 헤더분리 -->
+		<c:import url="/WEB-INF/views/include/header.jsp">
+		</c:import>
+		<!-- 헤더분리 -->
 		<!-- //header -->
-		
-		<div id="nav">
-			<ul>
-				<li><a href="">방명록</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">입사지원서</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
+
+		<c:import url="/WEB-INF/views/include/nav.jsp">
+		</c:import>
+
 		<!-- //nav -->
 
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/include/aSideUser.jsp">
+		</c:import>
+
 		<!-- //aside -->
 
 		<div id="content">
@@ -91,46 +68,20 @@
 							</tr>
 						</thead>
 						<tbody>
+							<c:forEach items="${bList}" var="vo">
 							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
+								<td>${vo.no}</td>
+								<td class="text-left"><a href="/mysite2/bc?action=modifyForm">${vo.title}</a></td>
+								<td>${vo.name}</td>
+								<td>${vo.hit}</td>
+								<td>${vo.reg_date}</td>
+								<td>
+								<c:if test="${sessionScope.authUser.no eq vo.user_no}">								
+								<a href="/mysite2/bc?action=delete&no=${vo.no}">[삭제]</a>
+									</c:if>
+								</td>
 							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr>
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
-							<tr class="last">
-								<td>123</td>
-								<td class="text-left"><a href="#">게시판 게시글입니다.</a></td>
-								<td>정우성</td>
-								<td>1232</td>
-								<td>2020-12-23</td>
-								<td><a href="">[삭제]</a></td>
-							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 		
@@ -153,8 +104,10 @@
 						
 						<div class="clear"></div>
 					</div>
-					<a id="btn_write" href="">글쓰기</a>
-				
+					
+					<c:if test="${sessionScope.authUser.no ne null}">
+						<a id="btn_write" href="/mysite2/bc?action=writeForm">글쓰기</a>
+					</c:if>
 				</div>
 				<!-- //list -->
 			</div>
@@ -163,9 +116,8 @@
 		<!-- //content  -->
 		<div class="clear"></div>
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<c:import url="/WEB-INF/views/include/footer.jsp">
+		</c:import>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->
