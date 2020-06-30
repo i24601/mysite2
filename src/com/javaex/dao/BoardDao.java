@@ -85,7 +85,7 @@ public class BoardDao {
 		return count;
 	}
 	
-	public List<BoardVo> getPersonList(String str) {
+	public List<BoardVo> getPersonList(int no1) {
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
 		getConnection();
 
@@ -102,14 +102,14 @@ public class BoardDao {
 			query += " from users u, board b ";
 			query += " where u.no = b.user_no ";
 
-			if(str!="") {
+			if(no1!=0) {
 				
 				query += " and b.no = ? ";
 				query += " order by reg_date desc ";
 				
 				System.out.println(query);
 				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
-				pstmt.setString(1, str);
+				pstmt.setInt(1, no1);
 			}
 			else {
 				query += " order by reg_date desc ";
@@ -167,7 +167,7 @@ public class BoardDao {
 		return count;
 	}
 	
-	public int increaseHit(String str) {
+	public int increaseHit(int no1) {
 		int count = 0;
 		getConnection();
 
@@ -178,7 +178,7 @@ public class BoardDao {
 			query += " set hit = hit + 1 ";
 			query += " where no = ? ";
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
-			pstmt.setString(1, str);
+			pstmt.setInt(1, no1);
 			System.out.println(query);
 			count = pstmt.executeUpdate(); // 쿼리문 실행
 
@@ -223,6 +223,62 @@ public class BoardDao {
 
 		close();
 		return count;
+	}
+	
+	public List<BoardVo> getPersonList(String str) {
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행 --> 완성된 sql문을 가져와서 작성할것
+			String query = "";
+			query += " select  b.no, ";
+			query += "         b.title, ";
+			query += "         b.content, ";
+			query += "         b.hit, ";
+			query += "         to_char(b.reg_date,'YYYY-MM-DD HH24:MI') as reg_date , ";
+			query += "         b.user_no, ";
+			query += "         u.name ";
+			query += " from users u, board b ";
+			query += " where u.no = b.user_no ";
+
+			if(str!="") {
+				
+				query += " and b.title like ? ";
+				query += " order by reg_date desc ";
+				
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+				pstmt.setString(1, '%' + str + '%');
+			}
+			else {
+				query += " order by reg_date desc ";
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			}
+			System.out.println(query);
+			rs = pstmt.executeQuery();
+			// 4.결과처리
+			while (rs.next()) {
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				int hit = rs.getInt("hit");
+				String reg_date = rs.getString("reg_date");
+				int user_no = rs.getInt("user_no");
+				String name = rs.getString("name");
+				
+				BoardVo bVo = new BoardVo(no, hit, user_no, title, content, reg_date, name);
+				boardList.add(bVo);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+
+		return boardList;
+
 	}
 	
 	

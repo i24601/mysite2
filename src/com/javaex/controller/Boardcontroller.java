@@ -28,6 +28,7 @@ public class Boardcontroller extends HttpServlet {
 		String title, content;
 		List<BoardVo> bList;
 		String str = "";
+		int no1 = 0;
 		BoardVo bVo;
 		System.out.println(action);
 		switch (action) {
@@ -73,19 +74,19 @@ public class Boardcontroller extends HttpServlet {
 			
 			case "read" :
 				bDao=new BoardDao();
-				str = request.getParameter("no");
-				bList = bDao.getPersonList(str);
+				no1 = Integer.parseInt(request.getParameter("no"));
+				bList = bDao.getPersonList(no1);
 				System.out.println("read"+bList.toString());
 				bVo = new BoardVo(bList.get(0).getNo(), bList.get(0).getHit(), bList.get(0).getUser_no(), bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
 				request.setAttribute("bVo", bVo);
-				bDao.increaseHit(str);
+				bDao.increaseHit(no1);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/read.jsp");
 			break;
 			
 			case "modifyForm" :
 				bDao=new BoardDao();
-				str = request.getParameter("no"); 
-				bList = bDao.getPersonList(str);
+				no1 = Integer.parseInt(request.getParameter("no"));
+				bList = bDao.getPersonList(no1);
 				bVo = new BoardVo(0, bList.get(0).getHit(), 0, bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
 				request.setAttribute("bVo", bVo);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/modifyForm.jsp");
@@ -97,9 +98,8 @@ public class Boardcontroller extends HttpServlet {
 				uVo = (UserVo)session.getAttribute("authUser");
 				title = request.getParameter("title");
 				content = request.getParameter("content");
-				str = request.getParameter("no");
-				System.out.println(str);
-				bList = bDao.getPersonList(str);
+				no1 = Integer.parseInt(request.getParameter("no"));
+				bList = bDao.getPersonList(no1);
 				System.out.println(bList.toString());
 				System.out.println("게시글 번호");
 				System.out.println(bList.get(0).getNo());
