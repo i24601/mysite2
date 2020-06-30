@@ -85,9 +85,8 @@ public class BoardDao {
 		return count;
 	}
 	
-	public List<BoardVo> getPersonList() {
+	public List<BoardVo> getPersonList(String str) {
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
-
 		getConnection();
 
 		try {
@@ -103,10 +102,20 @@ public class BoardDao {
 			query += "         u.name ";
 			query += " from users u, board b ";
 			query += " where u.no = b.user_no ";
-			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			
+			if(str!="") {
+				
+				query += " and b.no = ? ";
+				
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+				pstmt.setString(1, str);
+			}
+			else {
+				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			}
 			System.out.println(query);
 			rs = pstmt.executeQuery();
-
 			// 4.결과처리
 			while (rs.next()) {
 				int no = rs.getInt("no");
@@ -156,5 +165,65 @@ public class BoardDao {
 		close();
 		return count;
 	}
+	
+	public int increaseHit(String str) {
+		int count = 0;
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " update board ";
+			query += " set hit = hit + 1 ";
+			query += " where no = ? ";
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			pstmt.setString(1, str);
+			System.out.println(query);
+			count = pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+			// System.out.println(count + "건 삭제되었습니다.");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		return count;
+	}
+	
+	public int update(BoardVo bVo) {
+		int count = 0;
+		getConnection();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = ""; // 쿼리문 문자열만들기, ? 주의
+			query += " update board ";
+			query += " set title = ?, ";
+			query += " content = ? ";
+			query += " where no = ? ";
+			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
+			pstmt.setString(1, bVo.getTitle());
+			System.out.println(bVo.getTitle());
+			pstmt.setString(2, bVo.getContent());
+			System.out.println(bVo.getContent());
+			pstmt.setInt(3, bVo.getNo());
+			System.out.println(bVo.getNo());
+			System.out.println(query);
+			count = pstmt.executeUpdate(); // 쿼리문 실행
+
+			// 4.결과처리
+			// System.out.println(count + "건 삭제되었습니다.");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+
+		close();
+		return count;
+	}
+	
+	
 	
 }

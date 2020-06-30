@@ -26,6 +26,9 @@ public class Boardcontroller extends HttpServlet {
 		BoardDao bDao;
 		UserVo uVo;
 		String title, content;
+		List<BoardVo> bList;
+		String str = "";
+		BoardVo bVo;
 		System.out.println(action);
 		switch (action) {
 			case "list" : 
@@ -36,7 +39,7 @@ public class Boardcontroller extends HttpServlet {
 				 * System.out.println(uVo.getNo());
 				 */
 				bDao=new BoardDao();
-				List<BoardVo> bList = bDao.getPersonList();
+				bList = bDao.getPersonList(str);
 				request.setAttribute("bList", bList);
 				
 				WebUtil.foword(request, response,"/WEB-INF/views/board/list.jsp");
@@ -53,7 +56,7 @@ public class Boardcontroller extends HttpServlet {
 				
 				title = request.getParameter("title");
 				content = request.getParameter("content");
-				BoardVo bVo = new BoardVo(0,0,uVo.getNo(),title, content, null, uVo.getName());
+				bVo = new BoardVo(0,0,uVo.getNo(),title, content, null, uVo.getName());
 				bDao.BoardInsert(bVo);
 				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
 
@@ -65,8 +68,43 @@ public class Boardcontroller extends HttpServlet {
 				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
 			break;
 			
+			case "read" :
+				bDao=new BoardDao();
+				str = request.getParameter("no");
+				bList = bDao.getPersonList(str);
+				System.out.println("read"+bList.toString());
+				bVo = new BoardVo(bList.get(0).getNo(), bList.get(0).getHit(), bList.get(0).getUser_no(), bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
+				request.setAttribute("bVo", bVo);
+				bDao.increaseHit(str);
+				WebUtil.foword(request, response,"/WEB-INF/views/board/read.jsp");
+			break;
+			
 			case "modifyForm" :
+				bDao=new BoardDao();
+				str = request.getParameter("no"); 
+				bList = bDao.getPersonList(str);
+				bVo = new BoardVo(0, bList.get(0).getHit(), 0, bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
+				request.setAttribute("bVo", bVo);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/modifyForm.jsp");
+			break;
+			
+			case "modify" :
+				bDao=new BoardDao();
+				session = request.getSession();
+				uVo = (UserVo)session.getAttribute("authUser");
+				title = request.getParameter("title");
+				content = request.getParameter("content");
+				str = request.getParameter("no");
+				System.out.println(str);
+				bList = bDao.getPersonList(str);
+				System.out.println(bList.toString());
+				System.out.println("게시글 번호");
+				System.out.println(bList.get(0).getNo());
+				bVo = new BoardVo(bList.get(0).getNo(), bList.get(0).getHit(), bList.get(0).getUser_no(), title, content, bList.get(0).getReg_date(), bList.get(0).getName());
+				
+				bDao.update(bVo);
+				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
+
 			break;
 		}
 		 
