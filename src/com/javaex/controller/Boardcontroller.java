@@ -38,6 +38,9 @@ public class Boardcontroller extends HttpServlet {
 				 * (UserVo)session.getAttribute("authUser"); System.out.println(uVo.toString());
 				 * System.out.println(uVo.getNo());
 				 */
+				
+				str = request.getParameter("str")==null?"":request.getParameter("str");
+				
 				bDao=new BoardDao();
 				bList = bDao.getPersonList(str);
 				request.setAttribute("bList", bList);

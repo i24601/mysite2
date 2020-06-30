@@ -50,10 +50,11 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="" method="">
+					<form action="/mysite2/bc" method="get">
 						<div class="form-group text-right">
-							<input type="text">
+							<input type="text" name="str">
 							<button type="submit" id=btn_search>검색</button>
+							<input type="hidden" name="action" value="list">
 						</div>
 					</form>
 					<table >
