@@ -65,7 +65,7 @@ public class BoardDao {
 			String query = ""; // 쿼리문 문자열만들기, ? 주의
 			query += " INSERT INTO board ";
 			query += " VALUES (seq_board_no.nextval, ?, ?, ?, sysdate, ?) ";
-
+			System.out.println(query);
 			pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			
 			pstmt.setString(1, bVo.getTitle()); // ?(물음표) 중 1번째, 순서중요
@@ -90,14 +90,13 @@ public class BoardDao {
 		getConnection();
 
 		try {
-
 			// 3. SQL문 준비 / 바인딩 / 실행 --> 완성된 sql문을 가져와서 작성할것
 			String query = "";
 			query += " select  b.no, ";
 			query += "         b.title, ";
 			query += "         b.content, ";
 			query += "         b.hit, ";
-			query += "         b.reg_date, ";
+			query += "         to_char(b.reg_date,'YYYY-MM-DD HH24:MI') as reg_date , ";
 			query += "         b.user_no, ";
 			query += "         u.name ";
 			query += " from users u, board b ";
