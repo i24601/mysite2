@@ -101,17 +101,18 @@ public class BoardDao {
 			query += "         u.name ";
 			query += " from users u, board b ";
 			query += " where u.no = b.user_no ";
-			query += " order by reg_date desc ";
 
 			if(str!="") {
 				
 				query += " and b.no = ? ";
+				query += " order by reg_date desc ";
 				
 				System.out.println(query);
 				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 				pstmt.setString(1, str);
 			}
 			else {
+				query += " order by reg_date desc ";
 				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 			}
 			System.out.println(query);
