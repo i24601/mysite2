@@ -82,11 +82,11 @@
 							<textarea id="txt-content" name="content">${bVo.content}</textarea>
 						</div>
 						
-						<a id="btn_cancel" href="/mysite2/bc?action=read&no=${sessionScope.no}">취소</a>
+						<a id="btn_cancel" href="/mysite2/bc?action=read&no=${param.no}&page=${param.page}">취소</a>
 						<button id="btn_modify" type="submit" >수정</button>
-						<input type="hidden" name="action" value="modify">
-						<input type="hidden" name="no" value="${param.no}">
-						
+						<input type="text" name="no" value="${param.no}">
+						<input type="text" name="page" value="${param.page}">
+						<input type="text" name="action" value="modify">
 					</form>
 	                <!-- //form -->
 				</div>

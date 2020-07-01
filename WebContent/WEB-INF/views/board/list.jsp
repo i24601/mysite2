@@ -25,7 +25,7 @@
 
 		<c:import url="/WEB-INF/views/include/nav.jsp">
 		</c:import>
-
+		
 		<!-- //nav -->
 
 		<c:import url="/WEB-INF/views/include/aSideUser.jsp">
@@ -55,6 +55,7 @@
 							<input type="text" name="str">
 							<button type="submit" id=btn_search>검색</button>
 							<input type="hidden" name="action" value="list">
+							<input type="hidden" name="page" value="1">
 						</div>
 					</form>
 					<table >
@@ -72,13 +73,13 @@
 							<c:forEach items="${bList}" var="vo">
 							<tr>
 								<td>${vo.no}</td>
-								<td class="text-left"><a href="/mysite2/bc?action=read&no=${vo.no}">${vo.title}</a></td>
+								<td class="text-left"><a href="/mysite2/bc?action=read&page=${param.page}&no=${vo.no}&str=${param.str}">${vo.title}</a></td>
 								<td>${vo.name}</td>
 								<td>${vo.hit}</td>
 								<td>${vo.reg_date}</td>
 								<td>
 								<c:if test="${sessionScope.authUser.no eq vo.user_no}">								
-								<a href="/mysite2/bc?action=delete&no=${vo.no}">[삭제]</a>
+								<a href="/mysite2/bc?action=delete&no=${vo.no}&page=${param.page}&str=${param.str}">[삭제]</a>
 									</c:if>
 								</td>
 							</tr>
@@ -89,17 +90,18 @@
 					<div id="paging">
 						<ul>
 							<li><a href="">◀</a></li>
-							<li><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">4</a></li>
-							<li class="active"><a href="">5</a></li>
-							<li><a href="">6</a></li>
-							<li><a href="">7</a></li>
-							<li><a href="">8</a></li>
-							<li><a href="">9</a></li>
-							<li><a href="">10</a></li>
+								<c:forEach begin="1" end="${size}" var="x">
+									<c:choose>
+										<c:when test="${param.page eq x}">
+										<li class="active"><a href="/mysite2/bc?action=list&page=${x}&str=${param.str}">${x}</a></li>
+										</c:when>
+										<c:otherwise>
+										<li><a href="/mysite2/bc?action=list&page=${x}&str=${param.str}">${x}</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>	
 							<li><a href="">▶</a></li>
+							
 						</ul>
 						
 						
@@ -107,7 +109,7 @@
 					</div>
 					
 					<c:if test="${sessionScope.authUser.no ne null}">
-						<a id="btn_write" href="/mysite2/bc?action=writeForm">글쓰기</a>
+						<a id="btn_write" href="/mysite2/bc?action=writeForm&page=${param.page}&str=${param.str}">글쓰기</a>
 					</c:if>
 				</div>
 				<!-- //list -->

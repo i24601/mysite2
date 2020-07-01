@@ -28,24 +28,27 @@ public class Boardcontroller extends HttpServlet {
 		String title, content;
 		List<BoardVo> bList;
 		String str = "";
+		int page;
 		int no1 = 0;
 		BoardVo bVo;
 		System.out.println(action);
 		switch (action) {
-			case "list" : 
-				
-				/*
-				 * session = request.getSession(); UserVo uVo =
-				 * (UserVo)session.getAttribute("authUser"); System.out.println(uVo.toString());
-				 * System.out.println(uVo.getNo());
-				 */
-				
-				str = request.getParameter("str")==null?"":request.getParameter("str");
-				
+			case "list" : 	
 				bDao=new BoardDao();
-				bList = bDao.getPersonList(str);
-				request.setAttribute("bList", bList);
+				str = request.getParameter("str")==null?"":request.getParameter("str");
+
+				page = Integer.parseInt(request.getParameter("page"));
+
+				bList = bDao.getPersonList(str, page);
+				int count = bList.get(0).getCount();
+				int size = count%3==0?(count/3):(count/3+1);
 				
+				if(page<=10 && page>=1) {
+				int start = 1;
+				int last = 10;
+				}
+				request.setAttribute("bList", bList);
+				request.setAttribute("size", size);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/list.jsp");
 			break;
 				
@@ -57,27 +60,30 @@ public class Boardcontroller extends HttpServlet {
 				bDao = new BoardDao();
 				session = request.getSession();
 				uVo = (UserVo)session.getAttribute("authUser");
-				
 				title = request.getParameter("title");
 				content = request.getParameter("content");
-				bVo = new BoardVo(0,0,uVo.getNo(),title, content, null, uVo.getName());
+				bVo = new BoardVo(0,0,uVo.getNo(),title, content, null, uVo.getName(),0);
 				bDao.BoardInsert(bVo);
-				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
+				
+				page = Integer.parseInt(request.getParameter("page"));
+				str = request.getParameter("str")==null?"":request.getParameter("str");
+				WebUtil.redeirect(request, response, "/mysite2/bc?action=list&page="+page+"&str="+str);
 
 			break;
 			
 			case "delete" :
 				int no = Integer.parseInt(request.getParameter("no"));	
 				bDao = new BoardDao(); bDao.boardDelete(no);
-				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
+				
+				page = Integer.parseInt(request.getParameter("page"));
+				str = request.getParameter("str")==null?"":request.getParameter("str");
+				WebUtil.redeirect(request, response, "/mysite2/bc?action=list&page="+page+"&str="+str);
 			break;
 			
 			case "read" :
 				bDao=new BoardDao();
 				no1 = Integer.parseInt(request.getParameter("no"));
-				bList = bDao.getPersonList(no1);
-				System.out.println("read"+bList.toString());
-				bVo = new BoardVo(bList.get(0).getNo(), bList.get(0).getHit(), bList.get(0).getUser_no(), bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
+				bVo = bDao.getPersonList(no1);
 				request.setAttribute("bVo", bVo);
 				bDao.increaseHit(no1);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/read.jsp");
@@ -86,8 +92,7 @@ public class Boardcontroller extends HttpServlet {
 			case "modifyForm" :
 				bDao=new BoardDao();
 				no1 = Integer.parseInt(request.getParameter("no"));
-				bList = bDao.getPersonList(no1);
-				bVo = new BoardVo(0, bList.get(0).getHit(), 0, bList.get(0).getTitle(), bList.get(0).getContent(), bList.get(0).getReg_date(), bList.get(0).getName());
+				bVo = bDao.getPersonList(no1);
 				request.setAttribute("bVo", bVo);
 				WebUtil.foword(request, response,"/WEB-INF/views/board/modifyForm.jsp");
 			break;
@@ -99,14 +104,14 @@ public class Boardcontroller extends HttpServlet {
 				title = request.getParameter("title");
 				content = request.getParameter("content");
 				no1 = Integer.parseInt(request.getParameter("no"));
-				bList = bDao.getPersonList(no1);
-				System.out.println(bList.toString());
+				System.out.println("no1은"+no1);
 				System.out.println("게시글 번호");
-				System.out.println(bList.get(0).getNo());
-				bVo = new BoardVo(bList.get(0).getNo(), bList.get(0).getHit(), bList.get(0).getUser_no(), title, content, bList.get(0).getReg_date(), bList.get(0).getName());
-				
+				bVo = new BoardVo(no1, 0, 0, title, content, null, null, 0);
 				bDao.update(bVo);
-				WebUtil.redeirect(request, response, "/mysite2/bc?action=list");
+				
+				page = Integer.parseInt(request.getParameter("page"));
+				str = request.getParameter("str")==null?"":request.getParameter("str");
+				WebUtil.redeirect(request, response, "/mysite2/bc?action=list&page="+page+"&str="+str);
 
 			break;
 		}

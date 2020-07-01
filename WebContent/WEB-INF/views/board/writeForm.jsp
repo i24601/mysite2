@@ -62,9 +62,10 @@
 							<textarea id="txt-content" name="content"></textarea>
 						</div>
 						
-						<a id="btn_cancel" href="/mysite2/bc?action=list">취소</a>
+						<a id="btn_cancel" href="/mysite2/bc?action=list&page=${param.page}">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
 						<input type="hidden" name="action" value="write">
+						<input type="hidden" name="page" value="1">
 					</form>
 	                <!-- //form -->
 				</div>

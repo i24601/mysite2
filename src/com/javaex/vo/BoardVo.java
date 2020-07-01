@@ -1,13 +1,13 @@
 package com.javaex.vo;
 
 public class BoardVo {
-	private int no, hit, user_no;
+	private int no, hit, user_no, count;
 	private String title, content, reg_date, name;
 
 	public BoardVo() {
 	}
 	
-	public BoardVo(int no, int hit, int user_no, String title, String content, String reg_date, String name) {
+	public BoardVo(int no, int hit, int user_no, String title, String content, String reg_date, String name, int count) {
 		this.no = no;
 		this.hit = hit;
 		this.user_no = user_no;
@@ -15,6 +15,7 @@ public class BoardVo {
 		this.content = content;
 		this.reg_date = reg_date;
 		this.name = name;
+		this.count = count;
 	}
 
 
@@ -96,12 +97,23 @@ public class BoardVo {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", hit=" + hit + ", user_no=" + user_no + ", title=" + title + ", content="
-				+ content + ", reg_date=" + reg_date + ", name=" + name + "]";
+		return "BoardVo [no=" + no + ", hit=" + hit + ", user_no=" + user_no + ", count=" + count + ", title=" + title
+				+ ", content=" + content + ", reg_date=" + reg_date + ", name=" + name + "]";
 	}
+
+	
 	
 	
 	

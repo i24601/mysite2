@@ -83,9 +83,9 @@
 						</div>
 						
 						<c:if test="${sessionScope.authUser.no eq bVo.user_no}">								
-						<a id="btn_modify" href="/mysite2/bc?action=modifyForm&no=${param.no}">수정</a>
+						<a id="btn_modify" href="/mysite2/bc?action=modifyForm&no=${param.no}&page=${param.page}">수정</a>
 									</c:if>
-						<a id="btn_modify" href="/mysite2/bc?action=list">목록</a>
+						<a id="btn_modify" href="/mysite2/bc?action=list&page=${param.page}">목록</a>
 						
 					</form>
 	                <!-- //form -->
