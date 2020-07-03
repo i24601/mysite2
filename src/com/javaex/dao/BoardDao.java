@@ -273,10 +273,15 @@ public class BoardDao {
 			if(str!="") {
 				pstmt = conn.prepareStatement(query); // 쿼리로 만들기
 				pstmt.setString(1, '%' + str + '%');
+//				if(page!=0) 
+//				{
+//				pstmt.setInt(2, page);
+//				pstmt.setInt(3, page+2);
+//				}
 				if(page!=0) 
 				{
-				pstmt.setInt(2, page);
-				pstmt.setInt(3, page+2);
+				pstmt.setInt(1, 1+3*(page-1)); 
+				pstmt.setInt(2, 3*page);
 				}
 			}
 			else {

@@ -89,8 +89,8 @@
 		
 					<div id="paging">
 						<ul>
-							<li><a href="">◀</a></li>
-								<c:forEach begin="1" end="${size}" var="x">
+							<li><a href="/mysite2/bc?action=list&page=${btn_left}&str=${param.str}">◀</a></li>
+								<c:forEach begin="${start}" end="${end}" var="x">
 									<c:choose>
 										<c:when test="${param.page eq x}">
 										<li class="active"><a href="/mysite2/bc?action=list&page=${x}&str=${param.str}">${x}</a></li>
@@ -100,7 +100,7 @@
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>	
-							<li><a href="">▶</a></li>
+							<li><a href="/mysite2/bc?action=list&page=${btn_right}&str=${param.str}">▶</a></li>
 							
 						</ul>
 						

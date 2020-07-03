@@ -38,17 +38,61 @@ public class Boardcontroller extends HttpServlet {
 				str = request.getParameter("str")==null?"":request.getParameter("str");
 
 				page = Integer.parseInt(request.getParameter("page"));
-
-				bList = bDao.getPersonList(str, page);
-				int count = bList.get(0).getCount();
-				int size = count%3==0?(count/3):(count/3+1);
 				
-				if(page<=10 && page>=1) {
-				int start = 1;
-				int last = 10;
-				}
+				int chapter = (int)Math.ceil(((float)page)/10);
+				int btn_left;
+				int btn_right;
+				
+				bList = bDao.getPersonList(str, page);
+				
+				System.out.println(page);
+				System.out.println(bList.toString());
+				int count=bList.get(0).getCount();
+				
+				System.out.println(count);
+				
 				request.setAttribute("bList", bList);
-				request.setAttribute("size", size);
+				
+				if(count/3>=10) {
+					//전체 page가 10개 이상
+					System.out.println("10");
+					request.setAttribute("start", 1+10*(chapter-1));
+					if(chapter*30<=count) {
+						//현재 챕터의 페이지가 10개이상
+						System.out.println("10");
+						request.setAttribute("end", chapter*10);
+						if(chapter==1) {
+							btn_left=1;
+						}
+						else {
+							btn_left=10*(chapter-1);							
+						}
+						btn_right=chapter*10+1;
+						request.setAttribute("btn_left", btn_left);
+						request.setAttribute("btn_right", btn_right);
+					}
+					else {
+						//현재 챕터의 페이지가 10개이하
+						System.out.println("나누기");
+						request.setAttribute("end", (chapter-1)*10+Math.ceil(((float)(count-30*(chapter-1)))/3));
+						btn_left=10*(chapter-1);
+						btn_right=(int)((chapter-1)*10+Math.ceil(((float)(count-30*(chapter-1)))/3));
+						request.setAttribute("btn_left", btn_left);
+						request.setAttribute("btn_right", btn_right);
+					}
+				}
+				
+				else{
+					//전체페이지가 10개이하
+					System.out.println("size");
+					request.setAttribute("start", 1);
+					request.setAttribute("end", Math.ceil(((float)count)/3) );
+					btn_left=1;	
+					btn_right=page;
+					request.setAttribute("btn_left", btn_left);
+					request.setAttribute("btn_right", btn_right);
+				}
+				
 				WebUtil.foword(request, response,"/WEB-INF/views/board/list.jsp");
 			break;
 				
